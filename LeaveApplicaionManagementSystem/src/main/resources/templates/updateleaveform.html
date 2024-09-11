@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+ <head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+
+ 
+<div class="container">
+
+    <div class="row my-3">
+      <div class="col">
+        <div class="d-flex justify-content-end"><h2>Update Leave Form</h2></div>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-end"><a th:href="@{/staff/leave/history/1}" class="btn btn-primary">My Leave History</a></div>
+      </div>
+</div>
+    
+
+ <form action="#" th:action="@{/staff/leave/saveupdateleave}" th:object="${leavedetails}" method="post">
+
+<div class="container mt-5">
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-4"></div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-lg-6">
+						<div class="mb-3 row">
+							<span class="col-sm-4"></span>
+							<div class="col-sm-8">
+
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+					
+					<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leaveformid" class="col-sm-4 col-form-label">Leave Form Id</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{leaveformid}" id="leaveformid" class="form-control" readonly />
+								<span th:if="${#fields.hasErrors('leaveformid')}" th:errors="*{leaveformid}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="employeeId" class="col-sm-4 col-form-label">Employee Id</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{employeeId}" id="employeeId" class="form-control" readonly />
+								<span th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leavetype" class="col-sm-4 col-form-label">Leave Type</label>
+							<div class="col-sm-8">
+								<fieldset>
+									<select class="form-select" th:field="*{leavetype}" id="leavetype">
+										<option value="Annual Leave">Annual Leave</option>
+						                <option value="Medical Leave">Medical Leave</option>
+						                <option value="Compensation Leave">Compensation Leave</option>
+									</select>
+								</fieldset>
+								<span th:if="${#fields.hasErrors('leavetype')}" th:errors="*{leavetype}"  class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leavecategory" class="col-sm-4 col-form-label">Leave Category</label>
+							<div class="col-sm-8">
+								<input type="radio" th:field="*{leavecategory}" id="leavecategory" 
+								th:value="LocalLeave" checked ="true" />
+								<label for="Local leave">Local leave</label>
+								
+								<input type="radio" th:field="*{leavecategory}" id="leavecategory" 
+								th:value="OverseasLeave" checked ="true" />
+								<label for="Local leave">Overseas Leave</label>
+								
+								<span th:if="${#fields.hasErrors('leavecategory')}" th:errors="*{leavecategory}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leavestartdate" class="col-sm-4 col-form-label">Leave Start Date</label>
+							<div class="col-sm-8">
+								<input type="date" th:value="*{leavestartdate}" th:field="*{leavestartdate}" id="leavestartdate" class="form-control" />
+								<span th:if="${#fields.hasErrors('leavestartdate')}" th:errors="*{leavestartdate}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leaveenddateleaveenddate" class="col-sm-4 col-form-label">Leave End Date</label>
+							<div class="col-sm-8">
+								<input type="date" th:value="*{leaveenddate}" th:field="*{leaveenddate}" id="leaveenddate" class="form-control" />
+								<span th:if="${#fields.hasErrors('leaveenddate')}" th:errors="*{leaveenddate}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="leavereason" class="col-sm-4 col-form-label">Leave Reason</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{leavereason}" id="leavereason" class="form-control" />
+								<span th:if="${#fields.hasErrors('leavereason')}" th:errors="*{leavereason}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+					
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="workdissemination" class="col-sm-4 col-form-label">Work Dissemination</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{workdissemination}" id="workdissemination" class="form-control" />
+								<span th:if="${#fields.hasErrors('workdissemination')}" th:errors="*{workdissemination}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="contactnumber" class="col-sm-4 col-form-label">Contact Number</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{contactnumber}" id="contactnumber" class="form-control" />
+								<span th:if="${#fields.hasErrors('contactnumber')}" th:errors="*{contactnumber}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+								<input type="reset" value="Clear" class="btn btn-primary" />
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="submit" value="Submit" class="btn btn-primary" />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>
+ <div th:replace="fragments/layout.html :: footer" />
+</body>
+</html>
+ 
+ 

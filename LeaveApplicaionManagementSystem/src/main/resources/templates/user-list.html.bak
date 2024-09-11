@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+
+	<div th:replace="fragments/layout.html :: menu" />
+
+	<div class="container">
+
+		<div class="row my-3">
+			<div class="col">
+				<h2>User List Page</h2>
+			</div>
+			<div class="col">
+				<div class="d-flex justify-content-end"><a th:href="@{/admin/user/create/}"
+						class="btn btn-success">Create New User</a></div>
+			</div>
+		</div>
+
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-8 col-lg-6">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th scope="col"><span>User Id</span></th>
+							<th scope="col"><span>Name</span></th>
+							<th scope="col"><span>Password</span></th>
+							<th scope="col"><span th:text="#{caption.edit}"></span></th>
+							<th scope="col"><span th:text="#{caption.delete}"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${userList}">
+							<td th:text="${user.userId}">User Id</td>
+							<td th:text="${user.name}">Username</td>
+							<td th:text="${user.password}">Password</td>
+							<td><a th:href="@{/admin/user/edit/}+${user.userId}" class="btn btn-primary"><span
+										th:text="#{caption.edit}"></span></a></td>
+							<td>
+								<a th:href="@{/admin/user/delete/}+${user.userId}" class="btn btn-danger"><span th:text="#{caption.delete}"></span></a>
+
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+	<div th:replace="fragments/layout.html :: footer" />
+
+
+</body>
+
+</html>

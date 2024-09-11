@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<form action="#"
+		th:action="@{/manager/leaveDetail/approve/}+${leaveDetail.leaveformid}"
+		th:object="${leaveDetail}" method="post">
+		<div class="container mt-4  form-control">
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<h3 class="col-sm-4">Leave Detail for Approval</h3>
+			</div>
+			<hr>
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="staticEmail" class="col-sm-2 col-form-label">Leave
+					ID:</label>
+				<div class="col-sm-3">
+					<input type="text" class="" th:field="*{leaveformid}" th:value="*{leaveformid}" readonly/>
+				</div>
+
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Employee
+					ID:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{employeeId}"
+						th:field="*{employeeId}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Employee
+					Name:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{employeeName}"
+						th:field="*{employeeName}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Leave
+					Type:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{leavetype}" th:field="*{leavetype}"
+						readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Start
+					Date:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{leavestartdate}"
+						th:field="*{leavestartdate}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">End
+					Date:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{leaveenddate}"
+						th:field="*{leaveenddate}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Duration:</label>
+				<div class="col-sm-3">
+
+					<input type="text" th:value="*{leaveduration}"
+						th:field="*{leaveduration}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Contact
+					Number:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{contactnumber}"
+						th:field="*{contactnumber}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label class="col-sm-2 col-form-label">Leave Category:</label>
+				<div class="col-sm-3">
+					<input type="text" th:value="*{leavecategory}"
+						th:field="*{leavecategory}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Reason:</label>
+				<div class="col-sm-3">
+
+					<input type="text" th:value="*{leavereason}"
+						th:field="*{leavereason}" readonly />
+				</div>
+			</div>
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label for="inputPassword" class="col-sm-2 col-form-label">Work
+					Dissemination:</label>
+				<div class="col-sm-3">
+					<textarea type="text" th:value="*{workdissemination}"
+						th:field="*{workdissemination}" readonly ></textarea> 
+				</div>
+			</div>
+
+
+			<div class="form-group row">
+				<div class="col-sm-2"></div>
+				<label class="col-sm-2 col-form-label">Comment:</label>
+				<div class="col-sm-3">
+					<textarea id="ManagerComment" class="form-control"
+						th:field="*{managercomment}" th:value="${managercomment}"></textarea>
+					<p style="color: red" th:if="${#fields.hasErrors('managercomment')}"
+						th:errors="*{managercomment}" />
+				</div>
+			</div>
+			<br>
+			<div class="form-group row">
+				<div class="col-sm-4"></div>
+				<div class="col-sm-2">
+					<fieldset>
+						<input type="radio" th:field="*{Decision}" th:value="APPROVED" />
+						<label>Approve</label> &nbsp;&nbsp; <input type="radio"
+							th:field="*{Decision}" th:value="REJECTED" /> <label>Reject</label>
+					</fieldset>
+				</div>
+				<div class="col-sm-3">
+					<fieldset>
+						<input th:type="submit" th:value="Update" class="blcass" />
+					</fieldset>
+				</div>
+			</div>
+	</form>
+
+	</div>
+	<div th:replace="fragments/layout.html :: footer" />
+</body>
+
+</html>

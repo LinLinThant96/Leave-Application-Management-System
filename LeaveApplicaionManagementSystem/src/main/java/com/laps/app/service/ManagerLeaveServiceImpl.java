@@ -1,0 +1,68 @@
+package com.laps.app.service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.laps.app.model.Employee;
+import com.laps.app.model.LeaveDetails;
+import com.laps.app.model.LeaveEventEnum;
+import com.laps.app.repo.LeaveRepository;
+import com.laps.app.repo.ManagerLeaveRepository;
+
+@Service
+public class ManagerLeaveServiceImpl implements ManagerLeaveService {
+
+	@Resource
+	private ManagerLeaveRepository leaveRepo;
+
+	@Autowired
+	private EmployeeService empService;
+
+	@Override
+	public List<LeaveDetails> GetAllAppliedLeaves(Integer loginEmpId) {
+		return leaveRepo.GetAllAppliedLeaves(LeaveEventEnum.APPLIED,LeaveEventEnum.UPDATED,loginEmpId);
+	}
+
+	@Override
+	public List<LeaveDetails> GetAllLeaves() {
+		return leaveRepo.findAll();
+	}
+
+	@Override
+	public LeaveDetails GetLeaveDetailsById(Integer id) {
+		return leaveRepo.findByLeaveFormId(id);
+	}
+
+	@Override
+	public void UpdateLeaveDetailsStatus(LeaveDetails leaveDetail) {
+		leaveRepo.saveAndFlush(leaveDetail);
+	}
+
+	@Override
+	public void UpdateEmployee(LeaveDetails ld) {
+		
+		Employee emp = empService.findByEmployeeId(ld.getEmployeeId());
+		if (ld.getLeavetype().equals("Annual Leave")) {
+			int i = emp.getAnnualleaveentitlement() - ld.getLeaveduration();
+			emp.setAnnualleaveentitlement(i);
+			empService.UpdateLeaveDays(emp);
+		}
+		else if(ld.getLeavetype().equals("Medical Leave")) {
+			int i = emp.getMedicalleave()-ld.getLeaveduration();
+			emp.setMedicalleave(i);
+			empService.UpdateLeaveDays(emp);
+		}
+
+	}
+
+	@Override
+	public List<LeaveDetails> GetLeaveDetailsByEid(Integer eid) {
+		return leaveRepo.findLeavesByEID(eid);
+	
+	}
+
+}

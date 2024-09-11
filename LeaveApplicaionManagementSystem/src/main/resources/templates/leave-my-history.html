@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+  <div th:replace="fragments/layout.html :: menu"/>
+
+
+  <div class="container">
+
+    <div class="row my-3">
+      <div class="col" >
+        <h4>Your Leave Application History</h4>
+      </div>
+      <div class="col">
+        <div class="d-flex justify-content-end"><a th:href="@{/staff/leave/applyleave}" class="btn btn-primary">Apply Leave</a></div>
+      </div>
+    </div>
+	 <div class="row my-0">
+      <div class="col" th:if="${not session.isEmpty()}">
+        <a class="nav-link text-dark" th:utext="'Available <b>Annual Leave</b> ' + ${session.usession.employee.annualleaveentitlement}"></a>
+      </div>
+      <div class="col" th:if="${not session.isEmpty()}">
+        <a class="nav-link text-dark" th:utext="'Available <b>Medical Leave</b> ' + ${session.usession.employee.medicalleave}"></a>
+      </div>
+    </div>
+
+  <div th:if="${#lists.isEmpty(shistory)}">
+    <p>You have no leave application</p>
+  </div>
+  
+  							
+  <div th:if="${not #lists.isEmpty(listLeaveHistory)}">
+    <table class="table table-hover">
+    <thead>
+      <tr class="listHeading">
+        <th scope="col"><span th:text="#{fieldLabel.leaveformid}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.employeeId}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leavetype}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leavestartdate}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leaveenddate}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leaveduration}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leavestatus}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leavereason}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.managercomment}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.workdissemination}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.leavecategory}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.contactnumber}"></span></th>
+        <th scope="col"><span th:text="#{fieldLabel.update}"></span></th>
+		<th scope="col"><span th:text="#{fieldLabel.delete}"></span></th>
+		<th scope="col"><span th:text="#{fieldLabel.cancel}"></span></th>
+	
+      </tr>
+      <thead>
+      <tbody>
+      <tr th:each="leavedetails : ${listLeaveHistory}" class="listRecord">
+        <td align="left" th:text="${leavedetails.leaveformid}">leaveFormId</td>
+        <td align="left" th:text="${leavedetails.employeeId}">Employee</td>
+        <td align="left" th:text="${leavedetails.leavetype}">LeaveType</td>
+        <td align="left" th:text="${#temporals.format(leavedetails.leavestartdate, 'yyyy-MM-dd')}">From</td>
+        <td align="left" th:text="${#temporals.format(leavedetails.leaveenddate, 'yyyy-MM-dd')}">To</td>
+        <td align="left" th:text="${leavedetails.leaveduration}">LeaveDuration</td>
+        <td align="left" th:text="${leavedetails.leavestatus}">LeaveStatus</td>
+        <td align="left" th:text="${leavedetails.leavereason}">LeaveReason</td>
+        <td align="left" th:text="${leavedetails.managercomment}">ManagerComment</td>
+        <td align="left" th:text="${leavedetails.workdissemination}">WorkDissemination</td>
+        <td align="left" th:text="${leavedetails.leavecategory}">LeaveCategory</td>
+        <td align="left" th:text="${leavedetails.contactnumber}">ContactNumber</td>
+
+					
+		<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPLIED')  or #strings.equals(leavedetails.leavestatus,'UPDATED')}">			
+     	<td><a th:href="@{/staff/leave/updateleave/}+${leavedetails.leaveformid}" class="btn btn-primary">
+     	<span th:text="#{caption.editleave}" ></span></a></td></div>
+     	
+     	<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPROVED')  or #strings.equals(leavedetails.leavestatus,'REJECTED') or #strings.equals(leavedetails.leavestatus,'CANCELLED')}">			
+     	<td><a th:href="@{/staff/leave/updateleave/}+${leavedetails.leaveformid}" th:remove="all" class="btn btn-primary">
+     	<span th:text="#{caption.editleave}" ></span></a></td></div>
+     	
+     	   	
+     	<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPLIED')  or #strings.equals(leavedetails.leavestatus,'UPDATED')}">			
+     	<td><a th:href="@{/staff/leave/deleteleave/}+${leavedetails.leaveformid}" class="btn btn-danger">
+		<span th:text="#{caption.deleteleave}"></span></a></td></div>
+		
+		<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPROVED')  or #strings.equals(leavedetails.leavestatus,'REJECTED') or #strings.equals(leavedetails.leavestatus,'CANCELLED')}">			
+     	<td><a th:href="@{/staff/leave/deleteleave/}+${leavedetails.leaveformid}" th:remove="all" class="btn btn-danger">
+		<span th:text="#{caption.deleteleave}"></span></a></td></div>
+		
+		
+		<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPROVED')}">
+		<td><a th:href="@{/staff/leave/cancelleave/}+${leavedetails.leaveformid}" class="btn btn-danger">
+		<span th:text="#{caption.cancelleave}"></span></a></td></div>
+		
+		<div th:if="${#strings.equals(leavedetails.leavestatus, 'APPLIED')  or #strings.equals(leavedetails.leavestatus,'UPDATED') or #strings.equals(leavedetails.leavestatus,'REJECTED') or #strings.equals(leavedetails.leavestatus,'CANCELLED')}">			
+     	<td><a th:href="@{/staff/leave/deleteleave/}+${leavedetails.leaveformid}" th:remove="all" class="btn btn-danger">
+		<span th:text="#{caption.deleteleave}"></span></a></td></div>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+<!--th:if="${#lists.isEmpty(shistory)-->
+  
+  <div th:if = "${not #lists.isEmpty(shistory)}" style="margin-bottom: 3%; text-align: left; ">
+			<div class= "row col-sm-10">
+				<div class="col-sm-2">
+					Total Rows: [[${totalItems}]]
+				</div>
+				<div class="col-sm-3">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+						<a th:if = "${currentPage != i}" th:href="@{'/staff/leave/history/'+ ${i}}">[[${i}]]</a>
+						<span th:unless = "${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+					</span>
+				</div>
+				<div class="col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/staff/leave/history/' + ${currentPage + 1}}">Next</a>
+					<span th:unless = "${currentPage < totalPages}">Next</span>
+				</div>
+				<div class="col-sm-1">
+					<a th:if="${currentPage < totalPages}" th:href="@{'/staff/leave/history/' + ${totalPages}}">Last</a>
+					<span th:unless = "${currentPage < totalPages}">Last</span>
+				</div>
+			</div>
+		</div>
+		 <div th:replace="fragments/layout.html :: footer" />
+</body>
+
+</html>

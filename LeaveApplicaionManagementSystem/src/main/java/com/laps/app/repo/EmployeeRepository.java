@@ -1,0 +1,34 @@
+package com.laps.app.repo;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.laps.app.model.Employee;
+
+@Repository
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+	@Query("SELECT e FROM Employee e where e.employeeId = :id")
+	Employee findEmployeeById(@Param("id") Integer id);
+
+	@Query("SELECT e FROM Employee e where e.managerId = :mgrid")
+	List<Employee> findEmployeesByManagerId(@Param("mgrid") Integer mgrid);
+
+	@Query("SELECT DISTINCT m FROM Employee e, Employee m where e.managerId = m.employeeId ")
+	List<Employee> findAllManagers();
+
+	@Query("SELECT DISTINCT m.name FROM Employee e, Employee m where e.managerId = m.employeeId ")
+	List<String> findAllManagerNames();
+
+	@Query("SELECT DISTINCT e2 FROM Employee e1, Employee e2 WHERE e1.employeeId = e2.managerId AND e1.employeeId = :eid")
+	List<Employee> findSubordinates(@Param("eid") Integer eid);
+
+	@Query("SELECT DISTINCT e.employeeId FROM Employee e")
+	List<String> findAllEmployeeIDs();
+
+	@Query("SELECT e FROM Employee e, User u WHERE e.employeeId = :emp AND e.employeeId = u.employee.employeeId")
+	List<Employee> findIfUserExists(@Param("emp") Integer emp);
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+ 
+ <div class="container">
+
+    <div class="row my-3">
+      <div class="col">
+        <div class="d-flex justify-content-begin"><h2>Compensation Leave Approval</h2></div>
+      </div>
+    </div>
+
+<form action="#" th:action="@{/manager/compensation/leave/display/details/}+${cDetails.CompensationDetailsFormId}" th:object="${cDetails}" method="post">
+<div class="container mt-5">
+		
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-4"></div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-lg-6">
+						<div class="mb-3 row">
+							<span class="col-sm-4"></span>
+							<div class="col-sm-8">
+
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="CompensationDetailId" class="col-sm-4 col-form-label">CompensationDetailId</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{CompensationDetailsFormId}" id="CompensationDetailsFormId" class="form-control" readonly />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="EmployeeId" class="col-sm-4 col-form-label">Employee Id</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{EmployeeId}" id="EmployeeId" class="form-control" readonly />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="StartDateTime" class="col-sm-4 col-form-label">Start Date/Time</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{OtLeaveStartDate}" id="OtLeaveStartDate" class="form-control" readonly />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="EndDateTime" class="col-sm-4 col-form-label">End Date/Time</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{OtLeaveEndDate}" id="OtLeaveEndDate" class="form-control" readonly />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="Status" class="col-sm-4 col-form-label">Status</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{status}" id="status" class="form-control" readonly />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="decision" class="col-sm-4 col-form-label">Approve ?</label>
+							<div class="col-sm-8">
+								<input type="radio" th:field="*{decision}" id="decision" 
+								th:value="YES" checked ="true" />
+								<label for="Local leave">Yes</label>
+								
+								<input type="radio" th:field="*{decision}" id="decision" 
+								th:value="NO" checked ="true" />
+								<label for="Local leave">NO</label>
+							</div>
+						</div>
+				</div>
+				<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+								<input type="submit" value="Submit" class="btn btn-primary" />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+<div th:replace="fragments/layout.html :: footer" />
+</body>
+</html>

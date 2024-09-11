@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+
+	<div th:replace="fragments/layout.html :: menu" />
+	<!-- <div th:replace="fragments/layout.html :: header"/> -->
+
+	<div class="container">
+		<div class="d-flex align-items-center justify-content-center vh-100">
+            <div class="text-center">
+                <h1 class="display-1 fw-bold">Welcome to ISS</h1>
+                <p class="fs-3"> <span class="text-danger">LAPS!</span> Leave Application Processing System.</p>
+                <p class="lead">
+                    You are on home page.
+                  </p>
+            </div>
+        </div>
+	</div>
+
+	<div th:replace="fragments/layout.html :: footer" />
+</body>
+
+</html>

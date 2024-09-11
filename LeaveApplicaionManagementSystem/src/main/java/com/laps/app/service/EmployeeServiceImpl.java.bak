@@ -1,0 +1,98 @@
+package com.laps.app.service;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Service;
+
+import com.laps.app.model.Employee;
+import com.laps.app.repo.EmployeeRepository;
+
+@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+	@Resource
+	private EmployeeRepository employeeRepository;
+
+	@Override
+	@Transactional
+	public List<Employee> findEmployeesByManagerId(Integer s) {
+		return employeeRepository.findEmployeesByManagerId(s);
+	}
+
+	@Override
+	@Transactional
+	public Employee findEmployeeById(Integer s) {
+		return employeeRepository.findEmployeeById(s);
+	}
+
+	@Override
+	@Transactional
+	public List<Employee> findAllEmployees() {
+		return employeeRepository.findAll();
+	}
+
+	@Override
+	@Transactional
+	public Employee findEmployee(Integer empid) {
+		return employeeRepository.findById(empid).orElse(null);
+
+	}
+
+	@Override
+	@Transactional
+	public Employee createEmployee(Employee emp) {
+		return employeeRepository.saveAndFlush(emp);
+	}
+
+	@Override
+	@Transactional
+	public Employee changeEmployee(Employee emp) {
+		return employeeRepository.saveAndFlush(emp);
+	}
+
+	@Override
+	@Transactional
+	public void removeEmployee(Employee emp) {
+		employeeRepository.delete(emp);
+	}
+
+	@Override
+	@Transactional
+	public List<String> findAllManagerNames() {
+		return employeeRepository.findAllManagerNames();
+	}
+
+	@Override
+	@Transactional
+	public List<Employee> findAllManagers() {
+		return employeeRepository.findAllManagers();
+	}
+
+	@Override
+	@Transactional
+	public List<Employee> findSubordinates(Integer employeeId) {
+		return employeeRepository.findSubordinates(employeeId);
+	}
+
+	@Override
+	@Transactional
+	public List<String> findAllEmployeeIDs() {
+		return employeeRepository.findAllEmployeeIDs();
+	}
+
+	
+	//manager
+	@Override
+	public Employee findByEmployeeId(Integer id) {
+		return employeeRepository.findEmployeeById(id);
+	}
+
+	@Override
+	public void UpdateLeaveDays(Employee emp) {
+		employeeRepository.saveAndFlush(emp);
+		
+	}
+}

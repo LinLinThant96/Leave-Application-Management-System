@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+    
+    <div th:replace="fragments/layout.html :: menu" />
+    
+    
+     <h2>Subordinates Leave History Page</h2>
+  
+<div th:if="${not #lists.isEmpty(submap)}">
+    <table>
+    <tr class="listRecord" th:each="subordinate, stat : ${submap} ">
+    <td>
+    <div th:if="${not #lists.isEmpty(subordinate.value)}">
+    <h3 th:text="${subordinate.key.name}+' Leave History'">
+        Leave History</h3>
+    <table class="table table-hover">
+    <thead>
+      <tr class="listHeading">
+        <th scope="col"><span th:utext="#{fieldLabel.employeeId}">EmployeeId</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leavetype}">LeaveType</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leavestartdate}">Start</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leaveenddate}">End</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leaveduration}">Duration</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leavestatus}">Status</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leavereason}">Reason</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.managercomment}">Comment</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.workdissemination}">Work</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.leavecategory}">Category</span></th>
+        <th scope="col"><span th:utext="#{fieldLabel.contactnumber}">Number</span></th>
+       </tr>
+      <thead>
+      <tbody>
+        <tr class="listRecord" th:each="leavedetails : ${subordinate.value}">
+        <td align="left" th:text="${leavedetails.employeeId}"></td>
+        <td align="left" th:text="${leavedetails.leavetype}"></td>
+        <td align="left" th:text="${leavedetails.leavestartdate}"></td>
+        <td align="left" th:text="${leavedetails.leaveenddate}"> </td>
+        <td align="left" th:text="${leavedetails.leaveduration}"></td>
+        <td align="left" th:text="${leavedetails.leavestatus}"></td>
+        <td align="left" th:text="${leavedetails.leavereason}"></td>
+        <td align="left" th:text="${leavedetails.managercomment}"></td>
+        <td align="left" th:text="${leavedetails.workdissemination}"></td>
+        <td align="left" th:text="${leavedetails.leavecategory}"></td>
+        <td align="left" th:text="${leavedetails.contactnumber}"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div th:replace="fragments/layout.html :: footer" />
+  
+</body>
+
+</html>

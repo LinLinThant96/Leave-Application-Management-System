@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+
+	<div th:replace="fragments/layout.html :: menu" />
+	<!-- <div th:replace="fragments/layout.html :: header"/> -->
+
+	<div class="container">
+
+		<div class="row my-3">
+			<div class="col">
+				<h2>Edit Employee Page</h2>
+			</div>
+			<div class="col">
+				<div class="d-flex justify-content-end"><a th:href="@{/admin/employee/list/}"
+						class="btn btn-primary">Back to Employee List</a></div>
+			</div>
+		</div>
+		<form th:object="${employee}" th:action="@{'/admin/employee/edit/+employee.employeeId'}" method="post">
+			<div class="container mt-5">
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-4">
+
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-lg-6">
+						<div class="mb-3 row">
+							<span class="col-sm-4"></span>
+							<div class="col-sm-8">
+
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptEmpid" class="col-sm-4 col-form-label">Name</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{employeeId}" id="iptEmpid" class="form-control" readonly="readonly"/>
+								<span th:if="${#fields.hasErrors('employeeId')}" th:errors="*{employeeId}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptManager" class="col-sm-4 col-form-label">Manager Id</label>
+							<div class="col-sm-8">
+
+								<fieldset>
+									<select class="form-select" th:field="*{managerId}" id="iptManager">
+										<option value=""></option>
+										<option th:each="manager : ${eidlist}" th:value="${manager}"
+											th:text="${manager}">List
+										</option>
+									</select>
+								</fieldset>
+								<span th:if="${#fields.hasErrors('managerId')}" th:errors="*{managerId}"
+									class="text-danger"></span>
+
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptName" class="col-sm-4 col-form-label">Name</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{name}" id="iptName" class="form-control" />
+								<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptEmail" class="col-sm-4 col-form-label">Email</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{email}" id="iptEmail" class="form-control" />
+								<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptType" class="col-sm-4 col-form-label">Emp Type</label>
+							<div class="col-sm-8">
+								<input type="text" th:field="*{employeetype}" id="iptType" class="form-control" />
+								<span th:if="${#fields.hasErrors('employeetype')}" th:errors="*{employeetype}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptLeave" class="col-sm-4 col-form-label">Leave Entitlement</label>
+							<div class="col-sm-8">
+								<input type="number" th:field="*{annualleaveentitlement}" id="iptLeave"
+									class="form-control" />
+								<span th:if="${#fields.hasErrors('annualleaveentitlement')}"
+									th:errors="*{annualleaveentitlement}" class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptLeave" class="col-sm-4 col-form-label">Medical Leave</label>
+							<div class="col-sm-8">
+								<input type="number" th:field="*{medicalleave}" id="iptLeave" class="form-control" />
+								<span th:if="${#fields.hasErrors('medicalleave')}" th:errors="*{medicalleave}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="iptCom" class="col-sm-4 col-form-label">Compensation Leave</label>
+							<div class="col-sm-8">
+								<input type="number" th:field="*{compensationleave}" id="iptCom" class="form-control" />
+								<span th:if="${#fields.hasErrors('compensationleave')}" th:errors="*{compensationleave}"
+									class="text-danger"></span>
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+
+
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+
+								<input type="submit" value="Update" class="btn btn-primary" />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div th:replace="fragments/layout.html :: footer" />
+</body>
+
+</html>

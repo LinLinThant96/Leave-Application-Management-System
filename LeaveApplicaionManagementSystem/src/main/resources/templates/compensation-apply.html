@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout.html :: html_head"/>
+<body>
+<div th:replace="fragments/layout.html :: menu"/>
+
+ <div class="container">
+
+    <div class="row my-3">
+      <div class="col">
+        <div class="d-flex justify-content-begin"><h2>Apply Compensation Claim</h2></div>
+      </div>
+    </div>
+
+<table>
+		<tr>
+			<th align="right"><span>Total Overtime Blocks: </span></th>
+			<td th:text="${emp.compensationleave}">compensationleave</td>
+			<br>
+			<p>Each overtime block is 4 hours</p>
+		</tr>
+</table>		
+<form action="#" th:action="@{/staff/compensation/apply}" th:object="${cDetail}" method="post">
+  <div class="container mt-5">
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-4"></div>
+					<div class="col"></div>
+				</div>
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-lg-6">
+						<div class="mb-3 row">
+							<span class="col-sm-4"></span>
+							<div class="col-sm-8">
+
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="date" class="col-sm-4 col-form-label">Which date are you applying on? </label>
+							<div class="col-sm-8">
+								<input type="date"  th:name="otLeaveStartDate" />
+							</div>
+						</div>
+						
+					</div>
+
+				<div class="col"></div>
+				</div>
+				
+	
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<label for="ampm" class="col-sm-4 col-form-label">Period</label>
+							<div class="col-sm-8">
+								<input type="radio" th:field="*{timeOfDay}" id="timeOfDay" 
+								th:value="AM" checked ="true" />
+								<label for="Local leave">AM</label>
+								
+								<input type="radio" th:field="*{timeOfDay}" id="timeOfDay" 
+								th:value="PM" checked ="true" />
+								<label for="Local leave">PM</label>
+							</div>
+						</div>
+				</div>
+				<div class="col"></div>
+				</div>
+				
+				<div class="row">
+					<div class="col"></div>
+					<div class="col-8 col-sm-6 col-lg-5">
+						<div class="mb-3 row">
+							<div class="col-sm-4"></div>
+							<div class="col-sm-8">
+								<input type="reset" value="Reset" class="btn btn-primary" />
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<input type="submit" value="Create" class="btn btn-primary" />
+							</div>
+						</div>
+					</div>
+					<div class="col"></div>
+				</div>
+			</div>
+			
+			
+		</form>
+		
+		
+	</table>
+</div>
+<div th:replace="fragments/layout.html :: footer" />
+</body>
+</html>

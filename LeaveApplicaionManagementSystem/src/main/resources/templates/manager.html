@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/layout.html :: html_head" />
+
+<body>
+	<div th:replace="fragments/layout.html :: menu" />
+	<p th:text=${home}></p>
+
+
+	<div class="container">
+		<div th:if="${#lists.isEmpty(leaveList)}">
+			<h3>No Pending Request</h3>
+		</div>
+		<div th:if="${not #lists.isEmpty(leaveList)}">
+			<h3 class="col-sm-4">Pending Approval</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Id</th>
+						<th scope="col">Employee Id</th>
+						<th scope="col">Leave Type</th>
+						<th scope="col">Start Date</th>
+						<th scope="col">End Date</th>
+						<th scope="col">Duration</th>
+						<th scope="col">Details</th>
+
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="listRecord" th:each="leave : ${leaveList}">
+						<td th:text="${leave.leaveformid}"></td>
+						<td th:text="${leave.employeeId}"></td>
+						<td th:text="${leave.leavetype}"></td>
+						<td th:text="${leave.leavestartdate}"></td>
+						<td th:text="${leave.leaveenddate}"></td>
+						<td th:text="${leave.leaveduration}"></td>
+						<td><a th:href="@{/manager/leaveDetails/}+${leave.leaveformid}">Details</a></td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<div th:replace="fragments/layout.html :: footer" />
+
+</body>
+
+</html>

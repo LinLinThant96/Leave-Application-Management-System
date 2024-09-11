@@ -1,0 +1,129 @@
+package com.laps.app.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.laps.app.model.Employee;
+import com.laps.app.model.LeaveDetails;
+import com.laps.app.model.LeaveEventEnum;
+import com.laps.app.model.UserSession;
+import com.laps.app.service.EmailService;
+import com.laps.app.service.EmployeeService;
+import com.laps.app.service.ManagerLeaveService;
+import com.laps.app.validator.LeaveDetailsValidator;
+import com.laps.app.validator.ManagerLeaveDetailsValidator;
+
+@Controller
+@RequestMapping("/manager")
+public class ManagerLeaveController {
+
+	@Autowired
+	private ManagerLeaveService leaveService;
+	
+	@Autowired
+	private EmployeeService empService;
+
+	private LeaveDetails leaveDetail;
+
+	@Autowired
+	private ManagerLeaveDetailsValidator managerleaveDetailValidator;
+
+	@Autowired
+	private EmailService emailService;
+
+	@InitBinder
+	private void initManagerLeaveDetailsBinder(WebDataBinder binder) {
+		binder.addValidators(managerleaveDetailValidator);
+	}
+
+	@GetMapping("/home")
+	public String GetAllLeaveApprovals(Model model, HttpSession session) {
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		Integer loginEmpId = usession.getEmployee().getEmployeeId();
+		//Integer loginEmpId = 212025;
+
+		List<LeaveDetails> leaveList = leaveService.GetAllAppliedLeaves(loginEmpId);
+		model.addAttribute("leaveList", leaveList);
+		return "manager";
+
+	}
+
+	@GetMapping("/leaveDetails/{id}")
+	public String GetLeaveDetails(@PathVariable Integer id, Model model) {
+
+		leaveDetail = leaveService.GetLeaveDetailsById(id);
+		
+		Employee emp= empService.findByEmployeeId(leaveDetail.getEmployeeId());
+		String name = emp.getName();
+		leaveDetail.setEmployeeName(name);
+		
+		model.addAttribute("leaveDetail", leaveDetail);
+		return "manager_leave_details";
+	}
+
+	@PostMapping("/leaveDetail/approve/{id}")
+	public String approveOrRejectCourse(@ModelAttribute("leaveDetail") @Valid LeaveDetails leaveDetail,
+			BindingResult result, @PathVariable Integer id, Model model,HttpSession session) {
+
+		LeaveDetails ld = leaveService.GetLeaveDetailsById(id);
+
+		if (result.hasErrors()) {
+			System.out.println("Error");
+			return "manager_leave_details";
+		}
+		
+		String body = "";
+		if (leaveDetail.getDecision().equals("APPROVED")) {
+			ld.setLeavestatus(LeaveEventEnum.APPROVED);
+			leaveService.UpdateEmployee(ld);
+			body = "Your leave application have been Approved!";
+		} else if (leaveDetail.getDecision().equals("REJECTED")) {
+			ld.setLeavestatus(LeaveEventEnum.REJECTED);
+			body = "Your leave application have been Rejected!";
+
+		}
+
+		ld.setManagercomment(leaveDetail.getManagercomment());
+		
+		Employee emp= empService.findByEmployeeId(ld.getEmployeeId());
+		UserSession usession = (UserSession) session.getAttribute("usession");
+		
+		leaveService.UpdateLeaveDetailsStatus(ld);
+		String from = usession.getEmployee().getEmail();
+		String to = emp.getEmail();
+		String subject = "Leave Application";
+		emailService.sendEmail(from, to, subject, body);
+		return "redirect:/manager/home";
+	}
+	
+	@GetMapping("/subordinate-leave-history")
+	public String subordinatesHistory(HttpSession session,Model model) {
+		UserSession usession = (UserSession)session.getAttribute("usession");
+		
+		Map<Employee,List<LeaveDetails>> subordinateToLeavesMap = new HashMap<>();
+		for(Employee subordinate : usession.getSubordinates()) {
+			List<LeaveDetails> l = leaveService.GetLeaveDetailsByEid(subordinate.getEmployeeId());
+			subordinateToLeavesMap.put(subordinate,l );
+		};
+		model.addAttribute("submap", subordinateToLeavesMap);
+		return "manager-subordinate-leave-history";
+	}
+	
+
+}

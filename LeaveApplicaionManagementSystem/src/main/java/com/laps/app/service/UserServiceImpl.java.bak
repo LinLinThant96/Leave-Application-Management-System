@@ -1,0 +1,96 @@
+package com.laps.app.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.laps.app.model.Role;
+import com.laps.app.model.User;
+import com.laps.app.repo.UserRepository;
+
+@Service
+public class UserServiceImpl implements UserService {
+  @Autowired
+  private UserRepository userRepository;
+  
+  @Transactional
+  @Override
+  public List<User> findAllUsers() {
+    return userRepository.findAll();
+  }
+
+  @Transactional
+  @Override
+  public User findUser(Integer userId) {
+    return userRepository.findById(userId).orElse(null);
+  }
+
+  @Transactional
+  @Override
+  public User createUser(User user) {
+    return userRepository.saveAndFlush(user);
+  }
+
+  @Transactional
+  @Override
+  public User changeUser(User user) {
+    return userRepository.saveAndFlush(user);
+  }
+
+  @Transactional
+  @Override
+  public void removeUser(User user) {
+    userRepository.delete(user);
+  }
+
+  @Transactional
+  @Override
+  public List<Role> findRolesForUser(Integer userId) {
+    User user = userRepository.findById(userId).orElse(null);
+    
+    if (user == null) {
+      return new ArrayList<Role>();
+    }
+    
+    return user.getRoleSet();
+  }
+
+  @Transactional
+  @Override
+  public List<String> findRoleNamesForUser(Integer userId) {
+    List<Role> roles = findRolesForUser(userId);
+    
+    List<String> roleNames = new ArrayList<>();
+    roles.forEach(role -> roleNames.add(role.getName()));
+    
+    return roleNames;
+  }
+
+  @Transactional
+  @Override
+  public List<String> findManagerNameByUID(Integer userId) {
+    return userRepository.findManagerNamesByUID(userId);
+  }
+
+  @Transactional
+  @Override
+  public User authenticate(String username, String pwd) {
+    return userRepository.findUserByNamePwd(username, pwd);
+  }
+  
+@Override
+public void removeUserRoles(Integer userId) {
+	// TODO Auto-generated method stub
+	//userRepository.deleteUserRoles(userId);
+}
+
+//@Override
+//public List<String> findManagerNameByUID(Integer userId) {
+//	// TODO Auto-generated method stub
+//	return null;
+//}
+}
